@@ -1,30 +1,37 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <the-header/>
+    <router-view/>
+  <the-footer/>
 </template>
 
+<script lang="ts">
+import TheHeader from '@/components/header/TheHeader.vue'
+import TheFooter from '@/components/footer/TheFooter.vue'
+
+import { defineComponent } from 'vue'
+
+export default defineComponent ({
+  components: {
+    TheHeader,
+    TheFooter
+  }
+})
+
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --big: 'Montserrat', sans-serif;
+  --small: 'Work Sans', sans-serif;
 }
 
-#nav {
-  padding: 30px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
