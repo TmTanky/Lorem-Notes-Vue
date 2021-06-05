@@ -3,7 +3,7 @@
     <section class="sec1" >
       <div class="getstarted">
         <h1> Handle all your notes <br> in one place </h1>
-        <button> Get Started </button>
+        <button @click="toLogin" > Get Started </button>
       </div>
     </section>
 
@@ -44,7 +44,11 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-
+  methods: {
+    toLogin() {
+      this.$router.push({path: '/login'})
+    }
+  }
 })
 </script>
 
@@ -81,9 +85,15 @@ main section.sec1 button {
 }
 
 main section.sec1 button:hover {
-  background-color: rgba(253, 202, 64, 0.9);
+  background-color: #DF2935;
+  color: white;
   transform: scale(1.1);
 }
+
+/* button:hover {
+    background-color: #DF2935;
+    color: white;
+} */
 
 /* Sec 2 */
 

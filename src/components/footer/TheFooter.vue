@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <h3> Copyright &copy; Lorem-Notes {{ year }}  </h3>
+        <p> Copyright &copy; Lorem-Notes {{ year }}  </p>
     </footer>
 </template>
 
@@ -25,9 +25,10 @@ footer {
     text-align: center;
 }
 
-footer h3 {
+footer p {
     font-family: var(--small);
     color: white;
+    font-weight: 300;
 }
 
 </style>
