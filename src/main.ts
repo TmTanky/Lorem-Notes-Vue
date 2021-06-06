@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
   interface State {
     user: Iuser
     isAuth: boolean
+    isSecretOpen: string
   }
 
   interface ComponentCustomProperties {

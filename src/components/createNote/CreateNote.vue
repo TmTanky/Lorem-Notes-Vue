@@ -7,6 +7,11 @@
             <p v-if="title.length > 20"> 20 Characters only.  </p>
             <input v-model="title" autofocus type="text" placeholder="Note Title" name="title">
             <textarea v-model="content" wrap="soft" placeholder="Write something" name="content" cols="30" rows="10"></textarea>
+            
+            <span class="secret" >
+                <label for="secret"> Secret? </label>
+                <input type="checkbox" v-model="isSecret">
+            </span>
             <button :disabled="invalid" type="submit"> Create </button>
         </form>
     </main>
@@ -21,7 +26,8 @@ export default defineComponent({
     data() {
         return {
             title: "" as string,
-            content: "" as string
+            content: "" as string,
+            isSecret: false
         }
     },
     methods: {
@@ -30,7 +36,7 @@ export default defineComponent({
                 note: {
                     title: this.title,
                     content: this.content
-                }}, {
+                }, isSecret: this.isSecret} , {
                     headers: {
                         'authorization': `Bearer ${this.$store.state.user.token}`
                     }
@@ -149,6 +155,10 @@ form p {
     font-family: var(--small);
     color: red;
     transition-duration: 0.3s;
+}
+
+.secret label {
+    font-family: var(--small);
 }
 
 </style>

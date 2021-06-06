@@ -1,20 +1,18 @@
 <template>
-    <main class="home">
+    <main>
+        <div v-if="!loading" class="title">
+            <h1> Secrets </h1>
+        </div>
 
-        <transition name="createnoteform" >
-            <create-note @refetch-data="getMyNotes" @close-form="toggleForm" v-if="createOpen"/>
-        </transition>
-
-        <!-- !loading && myNotes.length === 0 -->
         <transition name="notes" >
-            <loading v-if="loading" />
-            <div v-else-if="!loading && myNotes.length === 0" class="nonotes">
+            <loading v-if="loading"/>
+            <div v-else-if="!loading && mySecrets.length === 0" class="nonotes">
                 <h1> Create one. </h1>
             </div>
             <div v-else class="allnotes">
-                <transition-group name="note" mode="out-in" >
-                    <div v-for="note in myNotes" :key="note._id" :class="`${note.isDone ? 'notedone onenote ' : note.isFocus ? 'focusnote' : 'onenote' }`" >
-                        <!-- <div class="done"> <img src="https://img.icons8.com/material-rounded/24/000000/checkmark--v1.png"/> </div> -->
+                <transition-group name="note" >
+                    <div v-for="note in mySecrets" :key="note._id" :class="`${note.isDone ? 'notedone onenote ' : note.isFocus ? 'focusnote' : 'onenote' }`" >
+
                         <div class="options">
                             <transition name="togglenote" mode="out-in" >
                                 <div v-if="note.isDone" class="done">
@@ -22,8 +20,8 @@
                                     <img @click="deleteNote(note._id)" src="https://img.icons8.com/material-rounded/24/000000/delete-forever.png"/>
                                 </div>
                                 <div v-else class="notdone">
-                                    <img @click="markAsDone(note._id)" v-if="!note.isFocus" src="https://img.icons8.com/material-rounded/24/000000/checkmark--v1.png"/>
                                     <img @click="toggleEdit(note._id)" src="https://img.icons8.com/material-rounded/24/000000/edit.png"/>
+                                    <img @click="deleteNote(note._id)" src="https://img.icons8.com/material-rounded/24/000000/delete-forever.png"/>
                                 </div>
                             </transition>
                         </div>
@@ -38,53 +36,40 @@
                             <h2> {{ note.title }} </h2>
                             <p> {{ note.content.substring(0,100) }} </p>
                         </div>
-
+                        
                     </div>
                 </transition-group>
             </div>
         </transition>
-
-        <div class="openform">
-            <div @click="toggleForm" class="openbtn">
-                <p> + </p>
-            </div>
-
-            <div class="opensecrets">
-                <button @click="toSecrets" > Secrets </button>
-            </div>
-        </div>
 
     </main>
 </template>
 
 <script lang="ts">
 import axios from 'axios'
+import {defineComponent} from 'vue'
 
 // Components
 import Loading from '@/components/loading/Loader.vue'
-import CreateNote from '@/components/createNote/CreateNote.vue'
 
-import { defineComponent } from 'vue'
+// Interfaces 
 import { Inotes } from '@/interfaces/notes'
-import {Status} from '@/interfaces/status'
 
 export default defineComponent({
     components: {
-        Loading,
-        CreateNote
+        Loading
     },
     data() {
         return {
-            myNotes: [] as Inotes[],
-            loading: true,
-            createOpen: false,
-            title: "",
-            content: ""
+            mySecrets: [] as Inotes[],
+            loading: true as boolean,
+            title: "" as string,
+            content: "" as string
         }
     },
     methods: {
         async getMyNotes() {
-            const {data} = await axios.post(`https://ts-lorem-notes-rest.herokuapp.com/getusernotes/${this.userID}`, null, {
+            const {data} = await axios.post(`https://ts-lorem-notes-rest.herokuapp.com/getusersecretnotes/${this.userID}`, null, {
                 headers: {
                     'authorization': `Bearer ${this.$store.state.user.token}`
                 }
@@ -94,17 +79,8 @@ export default defineComponent({
                 element.isFocus = false
             });
             
-            this.myNotes = data.data
+            this.mySecrets = data.data
             this.loading = false
-        },
-        async markAsDone(noteID: string) {
-            const {data} = await axios.patch(`https://ts-lorem-notes-rest.herokuapp.com/toggledonenote/${noteID}`, null, {
-                headers: {
-                    'authorization': `Bearer ${this.$store.state.user.token}`
-                }
-            })
-            console.log(data)
-            await this.getMyNotes()
         },
         async deleteNote(noteID: string) {
             const {data} = await axios.delete(`https://ts-lorem-notes-rest.herokuapp.com/deletenote/${this.userID}/${noteID}`, {
@@ -127,20 +103,16 @@ export default defineComponent({
             await this.getMyNotes()
             // this.toggleEdit(noteID)
         },
-        toggleForm() {
-            this.createOpen = !this.createOpen
-        },
         toggleEdit(noteID: string) {
-            const note = this.myNotes.find(item => item._id === noteID) as Inotes
+            const note = this.mySecrets.find(item => item._id === noteID) as Inotes
             note.isFocus = !note.isFocus
             // !note?.isFocus = !note?.isFocus
             this.title = note.title
             this.content = note.content
-        },
-        toSecrets() {
-            this.$store.dispatch('authSecret', Status.pending)
-            this.$router.push('/security')
         }
+    },
+    created() {
+        this.getMyNotes()
     },
     computed: {
         userID() {
@@ -153,10 +125,6 @@ export default defineComponent({
 
             return false
         }
-    },
-    created() {
-        this.getMyNotes()
-        this.$store.dispatch('authSecret', Status.denied)
     }
 })
 
@@ -173,16 +141,13 @@ export default defineComponent({
     }
 }
 
-.togglenote-enter-active,
-.notes-enter-active,
 .note-enter-active,
-.createnoteform-enter-active {
+.notes-enter-active {
     animation: fade 0.3s ease-in;
 }
 
-.note-leave-active,
-.createnoteform-leave-active {
-    animation: fade 0.3s ease-out reverse;
+.note-leave-active {
+    animation: fade 0.3s ease-in reverse;
 }
 
 input,
@@ -230,8 +195,15 @@ button:disabled {
     background-color: gray;
 }
 
-main.home {
+main {
     min-height: 90vh;
+}
+
+h1 {
+    text-align: center;
+    font-family: var(--big);
+    color: gray;
+    margin-top: 4rem;
 }
 
 h2 {
@@ -253,6 +225,18 @@ p {
     justify-content: center;
     min-height: 90vh;
     flex-flow: row wrap;
+}
+
+.options {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.options img {
+    position: relative;
+    margin: 0 0.1rem;
+    cursor: pointer;
+    z-index: 5;
 }
 
 .onenote {
@@ -287,98 +271,6 @@ p {
     z-index: 3;
     border: solid black 1px;
 }
-
-/* .done {
-    position: absolute;
-    display: flex;
-    background-color: red;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    top: -11px;
-    left: -11px;
-    cursor: pointer;
-}
-
-.done img {
-    margin: auto;   
-} */
-
-.options {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.options img {
-    position: relative;
-    margin: 0 0.1rem;
-    cursor: pointer;
-    z-index: 5;
-}
-
-.notedone {
-    border: solid black 3px;
-    transition-duration: 0.5s;
-    text-decoration: line-through;
-}
-
-.nonotes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    margin-top: 5rem;
-}
-
-.nonotes h1 {
-    text-align: center;
-    font-family: var(--big);
-    color: rgba(129, 123, 123, 0.616);
-}
-
-.openform {
-    display: flex;
-    justify-content: flex-end;
-    margin: 2rem;
-}
-
-.openform .openbtn {
-    background-color: rgb(253, 202, 64);
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    text-align: center;
-    display: flex;
-    justify-content: flex-end;
-    align-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition-property: all;
-    transition-duration: 0.3s;
-    margin-right: 1rem;
-}
-
-.openform .openbtn p {
-    margin: auto;
-    text-align: center;
-    font-size: 2.5rem;
-}
-
-.openform .openbtn:hover {
-    transform: scale(1.1);
-}
-
-.openform .opensecrets {
-    margin: auto 0;
-}
-
-/* .openform button {
-    height: 50px;
-    width: 50px;
-    font-size: 3rem;
-    margin: auto;
-    border-radius: 50%;
-} */
 
 .details {
     position: relative;

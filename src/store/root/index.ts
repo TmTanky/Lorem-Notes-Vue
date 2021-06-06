@@ -9,7 +9,8 @@ export default createStore({
     plugins: [createPersistedState()],
     state: {
         user: {} as Iuser,
-        isAuth: false
+        isAuth: false,
+        isSecretOpen: 'false'
     } as Istate ,
     mutations: {
         loginUser(state, payload) {
@@ -21,6 +22,9 @@ export default createStore({
         logoutUser(state) {
             state.user = {} as Iuser
             state.isAuth = false
+        },
+        authSecret(state, payload) {
+            state.isSecretOpen = payload
         }
     },
     actions: {
@@ -32,6 +36,9 @@ export default createStore({
         },
         logoutUser(context) {
             context.commit('logoutUser')
-        } 
+        },
+        authSecret(context, payload) {
+            context.commit('authSecret', payload)
+        }
     }
 })
