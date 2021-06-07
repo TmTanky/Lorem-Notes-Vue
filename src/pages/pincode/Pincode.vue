@@ -14,7 +14,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 
-import {Status} from '@/interfaces/status'
+import {Status} from '../../interfaces/status'
 
 export default defineComponent({
     data() {

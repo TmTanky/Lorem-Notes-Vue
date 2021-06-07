@@ -66,8 +66,8 @@ import Loading from '@/components/loading/Loader.vue'
 import CreateNote from '@/components/createNote/CreateNote.vue'
 
 import { defineComponent } from 'vue'
-import { Inotes } from '@/interfaces/notes'
-import {Status} from '@/interfaces/status'
+import { Inotes } from '../../interfaces/notes'
+import {Status} from '../../interfaces/status'
 
 export default defineComponent({
     components: {
@@ -145,14 +145,14 @@ export default defineComponent({
     },
     computed: {
         userID() {
-            return this.$store.state.user.data._id
+            return this.$store.state.user.data._id as string
         },
         invalid() {
             if ((this.title === "" || this.content === "") || this.title.length > 30) {
-                return true
+                return true as boolean
             }
 
-            return false
+            return false as boolean
         }
     },
     created() {

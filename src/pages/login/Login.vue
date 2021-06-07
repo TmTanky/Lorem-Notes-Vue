@@ -4,12 +4,19 @@
             <form @submit.prevent="loginSubmit" method="post">
                 <h1> Login </h1>
 
+                <transition-group name="error" > 
+                    <div class="errhandler" v-for="err in loginErrors" :key="err" >
+                        <p v-if="loginErrors.length > 0"> {{ err }} </p>
+                    </div>
+                </transition-group>
+
                 <label for="email"> Email </label>
                 <input type="text" name="email" v-model="email" >
                 <label for="password"> Password </label>
                 <input type="password" name="password" v-model="password" >
 
                 <button type="submit"> Login </button>
+                <router-link to="/register" > Create an account. </router-link>
             </form>
         </div>
 
@@ -27,13 +34,26 @@ export default defineComponent ({
     data() {
         return {
             email: "" as string,
-            password: "" as string
+            password: "" as string,
+            loginErrors: [] as string[]
         }
     },
     methods: {
         async loginSubmit() {
+
+            this.loginErrors = []
+
             const {data} = await axios.post('https://ts-lorem-notes-rest.herokuapp.com/login', {email: this.email, password: this.password})
-            // console.log(data)
+            
+            if (data.msg) {
+                console.log(data.msg)
+                this.loginErrors.push(data.msg)
+
+                return setTimeout(() => {
+                    this.loginErrors = []
+                }, 3000)
+            }
+
             this.$store.dispatch('loginUser', data)
             this.$store.dispatch('authUser')
             this.$router.push('/home')
@@ -44,6 +64,27 @@ export default defineComponent ({
 </script>
 
 <style scoped>
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.error-enter-active {
+    animation: fade 0.3s ease-in;
+}
+
+.error-leave-active {
+    animation: fade 0.3s ease-out reverse;
+}
+
+a {
+    color: black;
+}
 
 main {
     min-height: 90vh;
@@ -57,10 +98,17 @@ label {
 
 input {
     padding: 0.5rem;
+    font-family: var(--small);
+}
+
+p {
+    font-family: var(--small);
+    color: red;
 }
 
 img {
-    width: 25rem;
+    width: 70%;
+    transition-duration: 0.3s;
 }
 
 button {
@@ -107,6 +155,7 @@ button:hover {
     height: 400px;
     margin: auto;
     box-shadow: 0 8px 6px -8px black;
+    transition-duration: 0.3s;
 }
 
 .loginform form h1 {
@@ -120,6 +169,48 @@ button:hover {
 .loginformdetails {
     display: flex;
     justify-content: center;
+}
+
+@media screen and (max-width: 1100px) {
+
+    .loginform form {
+        width: 80%;
+    }
+
+}
+
+@media screen and (max-width: 700px) {
+
+    main {
+        flex-direction: column;
+    }
+
+    .loginformdetails {
+        order: 1;
+        padding: 3rem 0;
+    }
+
+    .loginform {
+        order: 2;
+    }
+
+    .loginform form {
+        box-shadow: none;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+
+    img {
+        width: 80%;
+    }
+
+    .loginform form {
+        width: 100%;
+        padding: 1rem;
+    }
+
 }
 
 </style>

@@ -63,7 +63,7 @@ import Loading from '@/components/loading/Loader.vue'
 import CreateSecretNote from '@/components/createSecretNote/CreateSecretNote.vue'
 
 // Interfaces 
-import { Inotes } from '@/interfaces/notes'
+import { Inotes } from '../../interfaces/notes'
 
 export default defineComponent({
     components: {

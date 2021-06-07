@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 
 // Interfaces 
-import {Iuser} from '@/interfaces/user'
+import {Iuser} from '../../interfaces/user'
 import { Istate } from './state'
 
 export default createStore({

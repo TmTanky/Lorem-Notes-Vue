@@ -36,4 +36,13 @@ export default defineComponent ({
   box-sizing: border-box;
 }
 
+a {
+  color: black;
+  margin-top: 0.5rem;
+  font-family: var(--small);
+  font-weight: 500;
+}
+
+/* eslint-disable */
+
 </style>
