@@ -34,9 +34,10 @@
                             <textarea v-model="content" name="content" cols="30" rows="10"></textarea>
                             <button :disabled="invalid" @click="editNote(note._id)" type="submit"> Confirm </button>
                         </div>
-                        <div v-else >
+                        <div class="elsedetails" v-else >
                             <h2> {{ note.title }} </h2>
-                            <p> {{ note.content.substring(0,100) }} </p>
+                            <!-- <p> {{ note.content.substring(0,100) }} </p> -->
+                            <p> {{ note.content }} </p>
                         </div>
 
                     </div>
@@ -244,29 +245,39 @@ h2 {
 p {
     font-family: var(--small);
     font-size: 0.8rem;
-    position: relative;
+    /* word-wrap: break-word;
+    overflow-wrap: break-word; */
 }
+
+/* .elsedetails p {
+    word-wrap: break-word;
+} */
 
 .allnotes {
     padding: 2rem;
     display: flex;
+    /* align-content: center; */
+    align-items: center;
+    /* align-self: center; */
     justify-content: center;
-    min-height: 90vh;
+    /* min-height: 90vh; */
     flex-flow: row wrap;
 }
 
 .onenote {
     position: relative;
-    margin: 1rem;
+    margin: 0.5rem;
     padding: 1rem;
     border-radius: 5px;
     height: max-content;
-    width: max-content;
+    width: 25%;
     background-color: whitesmoke;
     border: transparent 3px solid;
     transition-duration: 0.5s;
     text-decoration: none;
     z-index: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .focusnote {
@@ -279,7 +290,7 @@ p {
     padding: 1rem 2rem;
     border-radius: 5px;
     height: max-content;
-    width: max-content;
+    width: 50%;
     background-color: white;
     border: transparent 3px solid;
     transition-duration: 0.5s;
@@ -317,9 +328,10 @@ p {
 }
 
 .notedone {
-    border: solid black 3px;
+    /* border: solid black 3px; */
     transition-duration: 0.5s;
     text-decoration: line-through;
+    box-shadow: 0 0 10px #f02828;
 }
 
 .nonotes {
@@ -399,6 +411,39 @@ p {
     bottom: 0;
     /* background-color: rgba(0, 0, 0, 0.062); */
     z-index: 1;
+}
+
+@media screen and (max-width: 1000px) {
+    .onenote {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    .allnotes {
+        padding: 2rem 0.5rem;
+    }
+
+    .onenote {
+        width: 80%;
+    }
+
+    .focusnote {
+        width: 80%;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+    
+    .onenote {
+        width: 100%;
+    }
+
+    .focusnote {
+        width: 90%;
+    }
 }
 
 </style>

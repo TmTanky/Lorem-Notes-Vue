@@ -1,8 +1,17 @@
 <template>
     <main>
+
+        <div class="createsecret">
+            <button v-if="!formOpen" @click="toggleForm" > Create Secret </button>
+        </div>
+
         <div v-if="!loading" class="title">
             <h1> Secrets </h1>
         </div>
+
+        <transition name="createsecretform" >
+            <create-secret-note @refetch-data="getMyNotes" @close-form="toggleForm" v-if="formOpen" />
+        </transition>
 
         <transition name="notes" >
             <loading v-if="loading"/>
@@ -34,7 +43,7 @@
                         </div>
                         <div v-else >
                             <h2> {{ note.title }} </h2>
-                            <p> {{ note.content.substring(0,100) }} </p>
+                            <p> {{ note.content }} </p>
                         </div>
                         
                     </div>
@@ -51,20 +60,23 @@ import {defineComponent} from 'vue'
 
 // Components
 import Loading from '@/components/loading/Loader.vue'
+import CreateSecretNote from '@/components/createSecretNote/CreateSecretNote.vue'
 
 // Interfaces 
 import { Inotes } from '@/interfaces/notes'
 
 export default defineComponent({
     components: {
-        Loading
+        Loading,
+        CreateSecretNote
     },
     data() {
         return {
             mySecrets: [] as Inotes[],
             loading: true as boolean,
             title: "" as string,
-            content: "" as string
+            content: "" as string,
+            formOpen: false as boolean
         }
     },
     methods: {
@@ -109,6 +121,9 @@ export default defineComponent({
             // !note?.isFocus = !note?.isFocus
             this.title = note.title
             this.content = note.content
+        },
+        toggleForm() {
+            this.formOpen = !this.formOpen
         }
     },
     created() {
@@ -142,11 +157,13 @@ export default defineComponent({
 }
 
 .note-enter-active,
-.notes-enter-active {
+.notes-enter-active,
+.createsecretform-enter-active {
     animation: fade 0.3s ease-in;
 }
 
-.note-leave-active {
+.note-leave-active,
+.createsecretform-leave-active {
     animation: fade 0.3s ease-in reverse;
 }
 
@@ -203,7 +220,7 @@ h1 {
     text-align: center;
     font-family: var(--big);
     color: gray;
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 
 h2 {
@@ -223,7 +240,6 @@ p {
     padding: 2rem;
     display: flex;
     justify-content: center;
-    min-height: 90vh;
     flex-flow: row wrap;
 }
 
@@ -241,16 +257,18 @@ p {
 
 .onenote {
     position: relative;
-    margin: 1rem;
+    margin: 0.5rem;
     padding: 1rem;
     border-radius: 5px;
     height: max-content;
-    width: max-content;
+    width: 25%;
     background-color: whitesmoke;
     border: transparent 3px solid;
     transition-duration: 0.5s;
     text-decoration: none;
     z-index: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .focusnote {
@@ -263,7 +281,7 @@ p {
     padding: 1rem 2rem;
     border-radius: 5px;
     height: max-content;
-    width: max-content;
+    width: 50%;
     background-color: white;
     border: transparent 3px solid;
     transition-duration: 0.5s;
@@ -291,6 +309,48 @@ p {
     bottom: 0;
     /* background-color: rgba(0, 0, 0, 0.062); */
     z-index: 1;
+}
+
+.createsecret {
+    margin: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.createsecret button {
+    width: 120px;
+}
+
+@media screen and (max-width: 1000px) {
+    .onenote {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    .allnotes {
+        padding: 2rem 0.5rem;
+    }
+
+    .onenote {
+        width: 80%;
+    }
+
+    .focusnote {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .onenote {
+        width: 100%;
+    }
+
+    .focusnote {
+        width: 90%;
+    }
 }
 
 </style>

@@ -54,9 +54,27 @@ export default defineComponent({
 
 <style scoped>
 
+/* Start Normal */
+
+img {
+  width: 50%;
+  transition-duration: 0.3s;
+}
+
+main section.sec2,
+main section.sec3,
+main section.sec4 {
+  display: flex;
+  padding: 4rem 0rem;
+  transition-duration: 0.3s;
+}
+
+/* End Normal */
+
 main section.sec1 h1 {
   font-family: var(--big);
   font-size: 4rem;
+  transition-duration: 0.3s;
 } 
 
 main section.sec1 {
@@ -64,10 +82,12 @@ main section.sec1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition-duration: 0.3s;
 }
 
 main section.sec1 .getstarted {
   margin: auto 5rem;
+  transition-duration: 0.3s;
 }
 
 main section.sec1 button {
@@ -98,9 +118,8 @@ main section.sec1 button:hover {
 /* Sec 2 */
 
 main section.sec2 {
-  height: 600px;
-  display: flex;
   background-color: #FDCA40;
+  transition-duration: 0.3s;
 }
 
 main section.sec2 .addnoteimg,
@@ -108,29 +127,31 @@ main section.sec2 .addnoteinfo {
   flex: 1;
   display: flex;
   justify-content: center;
+  transition-duration: 0.3s;
 }
 
 main section.sec2 .addnoteinfo {
   margin: auto;
+  transition-duration: 0.3s;
 }
 
 main section.sec2 .addnoteinfo h2 {
   font-family: var(--big);
-  font-size: 3.5rem;
+  font-size: 5vw;
   color: white;
+  transition-duration: 0.3s;
 }
 
-main section.sec2 img {
+/* main section.sec2 img {
   width: 25rem;
-}
+} */
 
 
 /* Sec 3 */
 
 main section.sec3 {
-  height: 600px;
-  display: flex;
   background-color: #DF2935;
+  transition-duration: 0.3s;
 }
 
 main section.sec3 .writedownimg,
@@ -138,28 +159,31 @@ main section.sec3 .writedowninfo {
   flex: 1;
   display: flex;
   justify-content: center;
+  transition-duration: 0.3s;
 }
 
 main section.sec3 .writedowninfo {
   margin: auto;
+  transition-duration: 0.3s;
 }
 
 main section.sec3 .writedowninfo h2 {
   font-family: var(--big);
-  font-size: 3.5rem;
+  font-size: 5vw;
   color: white;
+  margin-left: 4rem;
+  transition-duration: 0.3s;
 }
 
-main section.sec3 img {
+/* main section.sec3 img {
   width: 25rem;
-}
+} */
 
 /* Sec 4 */
 
 main section.sec4 {
-  height: 600px;
-  display: flex;
   background-color: #E6E8E6;
+  transition-duration: 0.3s;
 }
 
 main section.sec4 .personalimg,
@@ -167,20 +191,111 @@ main section.sec4 .personalinfo {
   flex: 1;
   display: flex;
   justify-content: center;
+  transition-duration: 0.3s;
 }
 
 main section.sec4 .personalinfo {
   margin: auto;
+  transition-duration: 0.3s;
 }
 
 main section.sec4 .personalinfo h2 {
   font-family: var(--big);
-  font-size: 3.5rem;
+  font-size: 5vw;
   color: black;
+  transition-duration: 0.3s;
 }
 
-main section.sec4 img {
+/* main section.sec4 img {
   width: 25rem;
+} */
+
+@media screen and (max-width: 650px) {
+
+  main section.sec1 {
+    height: 500px;
+  }
+
+  main section.sec1 .getstarted {
+    margin: auto 2rem;
+  }
+
+  main section.sec1 h1 {
+    font-size: 12vw;
+  }
+
+  main section.sec2,
+  main section.sec3,
+  main section.sec4 {
+    flex-direction: column;
+  }
+
+  .addnoteinfo,
+  .addnoteimg {
+    padding: 1rem 0;
+  }
+
+  .writedownimg,
+  .writedowninfo {
+    padding: 1rem 0;
+  }
+
+  main section.sec3 .writedowninfo h2 {
+    margin-left: 0;
+  }
+
+  .personalimg,
+  .personalinfo {
+    padding: 1rem 0;
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+
+  main section.sec1 {
+    height: 400px;
+  }
+
+  main section.sec1 .getstarted {
+    margin: auto 1rem;
+  }
+
+  main section.sec2,
+  main section.sec3,
+  main section.sec4 {
+    flex-direction: column;
+  }
+
+  .addnoteinfo,
+  .addnoteimg {
+    padding: 1rem 0;
+  }
+
+  main section.sec2 .addnoteinfo h2 {
+    font-size: 8vw;
+  }
+
+  .writedownimg,
+  .writedowninfo {
+    padding: 1rem 0;
+  }
+
+  main section.sec3 .writedowninfo h2 {
+    font-size: 8vw;
+    margin-left: 0;
+  }
+
+  .personalimg,
+  .personalinfo {
+    padding: 1rem 0;
+  }
+
+  main section.sec4 .personalinfo h2 {
+    font-size: 8vw;
+    text-align: center;
+  }
+
 }
 
 

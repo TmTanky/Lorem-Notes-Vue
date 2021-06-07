@@ -81,4 +81,17 @@ p {
     width: 50px;
 }
 
+@media screen and (max-width: 450px) {
+
+    nav {
+        padding: 1rem;
+    }
+
+    .navlogo {
+        flex: 3;
+        /* padding: 1rem; */
+    }
+
+}
+
 </style>

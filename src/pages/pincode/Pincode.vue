@@ -74,6 +74,7 @@ form {
     margin: auto;
     padding: 2rem;
     border-radius: 5px;
+    transition-duration: 0.3s;
 }
 
 input {
@@ -130,6 +131,22 @@ p {
     color: red;
     margin-bottom: 0.2rem;
     font-family: var(--small);
+}
+
+@media screen and (max-width: 850px) {
+
+    form {
+        width: 70%;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+    form {
+        width: 90%;
+    }
+
 }
 
 </style>
