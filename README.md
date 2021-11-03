@@ -1,4 +1,13 @@
-# lorem-notes-ts-vue
+# Lorem Notes Vue
+
+Created with Vue JS
+This project is same with Lorem-Notes-React but this project uses Vue JS
+
+## Features
+
+- Create notes
+- Manage notes mark as done or not
+- Secret notes the data is encrypted and saved to the database
 
 ## Project setup
 ```
